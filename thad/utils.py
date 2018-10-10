@@ -33,3 +33,10 @@ def normal_linear_init(kernel_dim, mean, std, dtype=th.FloatTensor):
     x = np.random.normal(loc=mean, scale=std, size=kernel_dim).astype(np.float32)
     return th.from_numpy(x).type(dtype)
   return init_fn
+
+def xavier_linear_init(kernel_dim, dtype=th.FloatTensor):
+  def init_fn():
+    half_width = np.sqrt(6.0 / float(kernel_dim[0] + kernel_dim[1]))
+    x = np.random.uniform(low=-half_width, high=half_width, size=kernel_dim).astype(np.float32)
+    return th.from_numpy(x).type(dtype)
+  return init_fn

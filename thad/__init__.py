@@ -62,9 +62,10 @@ def deserialize_vars(vars_, src_data):
   for v in vars_:
     v_dim = v.data.size()
     flat_len = reduce(mul, list(v_dim), 1)
-    v.data.resize_(flat_len)
-    v.data.copy_(src_data[offset:offset+flat_len])
-    v.data.resize_(v_dim)
+    #v.data.resize_(flat_len)
+    #v.data.copy_(src_data[offset:offset+flat_len])
+    #v.data.resize_(v_dim)
+    v.data.copy_(src_data[offset:offset+flat_len].view(*v_dim))
     offset += flat_len
   return offset
 
@@ -73,9 +74,10 @@ def serialize_vars(vars_, dst_data):
   for v in vars_:
     v_dim = v.data.size()
     flat_len = reduce(mul, list(v_dim), 1)
-    v.data.resize_(flat_len)
-    dst_data[offset:offset+flat_len].copy_(v.data)
-    v.data.resize_(v_dim)
+    #v.data.resize_(flat_len)
+    #dst_data[offset:offset+flat_len].copy_(v.data)
+    #v.data.resize_(v_dim)
+    dst_data[offset:offset+flat_len].view(*v_dim).copy_(v.data)
     offset += flat_len
   return offset
 
